@@ -35,6 +35,8 @@ fun MacroRing(
     trackColor: Color = MaterialTheme.colorScheme.surfaceContainerHighest,
     centerLabel: String? = null,
     centerSubLabel: String? = null,
+    centerLabelColor: Color = MaterialTheme.colorScheme.onSurface,
+    centerSubLabelColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
 ) {
     val animatedProgress by animateFloatAsState(
         targetValue = progress.coerceIn(0f, 1f),
@@ -72,14 +74,15 @@ fun MacroRing(
                 ) {
                     Text(
                         text = centerLabel,
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = centerLabelColor,
                         textAlign = TextAlign.Center,
                     )
                     if (centerSubLabel != null) {
                         Text(
                             text = centerSubLabel,
                             style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            color = centerSubLabelColor,
                             textAlign = TextAlign.Center,
                         )
                     }

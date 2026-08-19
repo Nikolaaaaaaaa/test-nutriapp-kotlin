@@ -45,7 +45,7 @@ fun DiscoveryScreen(
     ) { padding ->
         LazyColumn(
             state = listState,
-            contentPadding = PaddingValues(top = padding.calculateTopPadding(), bottom = 96.dp),
+            contentPadding = PaddingValues(top = padding.calculateTopPadding(), bottom = 112.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item {

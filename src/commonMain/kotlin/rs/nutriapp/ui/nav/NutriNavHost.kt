@@ -1,6 +1,12 @@
 package rs.nutriapp.ui.nav
 
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -40,7 +46,27 @@ fun NutriNavHost(
     fun openRecipe(id: RecipeId) = navController.navigate(Route.RecipeDetail(id))
     fun back() = navController.popBackStack()
 
-    NavHost(navController = navController, startDestination = startRoute) {
+    // Prelazi izmedju ruta: novi ekran ulazi sa desne strane uz blago stisavanje starog.
+    // `spring` umesto trajanja u milisekundama — M3 "expressive" motion, bez biblioteke.
+    val enterSpec = spring<IntOffset>(dampingRatio = 0.9f, stiffness = 420f)
+    val fadeSpec = spring<Float>(dampingRatio = 1f, stiffness = 420f)
+
+    NavHost(
+        navController = navController,
+        startDestination = startRoute,
+        enterTransition = {
+            slideInHorizontally(enterSpec) { width -> width / 6 } + fadeIn(fadeSpec)
+        },
+        exitTransition = {
+            slideOutHorizontally(enterSpec) { width -> -width / 8 } + fadeOut(fadeSpec)
+        },
+        popEnterTransition = {
+            slideInHorizontally(enterSpec) { width -> -width / 8 } + fadeIn(fadeSpec)
+        },
+        popExitTransition = {
+            slideOutHorizontally(enterSpec) { width -> width / 6 } + fadeOut(fadeSpec)
+        },
+    ) {
         composable<Route.Onboarding> {
             OnboardingScreen(
                 onFinished = {

@@ -11,20 +11,29 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.RestaurantMenu
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import rs.nutriapp.core.di.nutriViewModel
 import rs.nutriapp.core.model.ActivityLevel
@@ -42,7 +51,12 @@ fun OnboardingScreen(onFinished: () -> Unit) {
                 progress = { (viewModel.step.index + 1) / OnboardingStep.all.size.toFloat() },
                 modifier = Modifier.fillMaxWidth(),
             )
-            androidx.compose.foundation.layout.Spacer(Modifier.padding(top = 8.dp))
+            androidx.compose.foundation.layout.Spacer(Modifier.padding(top = 10.dp))
+            Text(
+                "Korak ${viewModel.step.index + 1} od ${OnboardingStep.all.size}",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
             Text(viewModel.step.title, style = MaterialTheme.typography.headlineSmall)
             androidx.compose.foundation.layout.Spacer(Modifier.padding(top = 16.dp))
 
@@ -92,14 +106,51 @@ fun OnboardingScreen(onFinished: () -> Unit) {
 
 @Composable
 private fun WelcomeStep(vm: OnboardingViewModel) {
-    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text("Kako da te zovemo?", style = MaterialTheme.typography.bodyLarge)
+    Column(
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        androidx.compose.foundation.layout.Spacer(Modifier.padding(top = 12.dp))
+        Surface(
+            shape = CircleShape,
+            color = MaterialTheme.colorScheme.primaryContainer,
+            modifier = Modifier.size(96.dp),
+        ) {
+            Column(
+                Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Icon(
+                    Icons.Outlined.RestaurantMenu,
+                    contentDescription = null,
+                    modifier = Modifier.size(44.dp),
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
+            }
+        }
+        Text(
+            "Planiraj obroke, prati unos i drži se svojih golova — sve na jednom mestu.",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(horizontal = 8.dp),
+        )
+        androidx.compose.foundation.layout.Spacer(Modifier.padding(top = 4.dp))
         OutlinedTextField(
             value = vm.displayName,
             onValueChange = { vm.displayName = it },
             label = { Text("Ime i prezime") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
+            shape = MaterialTheme.shapes.large,
+        )
+        Text(
+            "Koristi se samo za pozdrav na početnom ekranu.",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
         )
     }
 }
@@ -143,22 +194,57 @@ private fun BodyMetricsStep(vm: OnboardingViewModel) {
 private fun ActivityGoalStep(vm: OnboardingViewModel) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text("Nivo aktivnosti", style = MaterialTheme.typography.titleSmall)
-        ActivityLevel.entries.forEach { level ->
-            Row {
-                FilterChip(
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            ActivityLevel.entries.forEach { level ->
+                // `description` stoji uz enum konstantu u modelu — nema odvojene mape.
+                SelectableRow(
                     selected = vm.activityLevel == level,
+                    title = level.label,
+                    subtitle = level.description,
                     onClick = { vm.activityLevel = level },
-                    label = { Text(level.label) },
                 )
             }
         }
         Text("Primarni cilj", style = MaterialTheme.typography.titleSmall)
-        PrimaryGoal.entries.forEach { goal ->
-            Row {
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            PrimaryGoal.entries.forEach { goal ->
                 FilterChip(
                     selected = vm.primaryGoal == goal,
                     onClick = { vm.primaryGoal = goal },
                     label = { Text(goal.label) },
+                )
+            }
+        }
+    }
+}
+
+/** Red sa naslovom, opisom i radio dugmetom — koristi se za izbor nivoa aktivnosti. */
+@Composable
+private fun SelectableRow(
+    selected: Boolean,
+    title: String,
+    subtitle: String,
+    onClick: () -> Unit,
+) {
+    Surface(
+        onClick = onClick,
+        shape = MaterialTheme.shapes.large,
+        color = if (selected) MaterialTheme.colorScheme.secondaryContainer
+        else MaterialTheme.colorScheme.surfaceContainer,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp).fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            RadioButton(selected = selected, onClick = onClick)
+            Column {
+                Text(title, style = MaterialTheme.typography.bodyLarge)
+                Text(
+                    subtitle,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
         }

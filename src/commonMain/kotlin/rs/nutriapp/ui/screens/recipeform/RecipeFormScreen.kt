@@ -54,7 +54,7 @@ fun RecipeFormScreen(editingId: RecipeId?, onSaved: (RecipeId) -> Unit, onBack: 
                 start = 16.dp,
                 end = 16.dp,
                 top = padding.calculateTopPadding() + 8.dp,
-                bottom = 24.dp,
+                bottom = 112.dp,
             ),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {

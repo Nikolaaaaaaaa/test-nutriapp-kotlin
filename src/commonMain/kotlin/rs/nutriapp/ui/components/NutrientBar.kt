@@ -18,7 +18,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-/** Traka napretka za jedan nutrijent (unos vs. gol) — koristi se na Dashboard-u i Statistici. */
+/**
+ * Traka napretka za jedan nutrijent (unos vs. gol) — koristi se na Dashboard-u i Statistici.
+ *
+ * Boje teksta i podloge su parametri sa podrazumevanim vrednostima za obicnu povrsinu.
+ * Na obojenoj kartici (npr. ljubicasti hero na Dashboard-u) pozivalac prosledjuje boje
+ * izvedene iz te kartice — inace bi podloga trake nestala u pozadini.
+ */
 @Composable
 fun NutrientBar(
     label: String,
@@ -26,6 +32,9 @@ fun NutrientBar(
     fraction: Float,
     color: Color,
     modifier: Modifier = Modifier,
+    labelColor: Color = MaterialTheme.colorScheme.onSurface,
+    valueColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    trackColor: Color = MaterialTheme.colorScheme.surfaceContainerHighest,
 ) {
     val animated by animateFloatAsState(
         targetValue = fraction.coerceIn(0f, 1f),
@@ -37,25 +46,25 @@ fun NutrientBar(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Text(text = label, style = MaterialTheme.typography.labelLarge)
+            Text(text = label, style = MaterialTheme.typography.labelLarge, color = labelColor)
             Text(
                 text = valueLabel,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = valueColor,
             )
         }
         androidx.compose.foundation.layout.Spacer(Modifier.height(6.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(8.dp)
+                .height(10.dp)
                 .clip(RoundedCornerShape(50))
-                .background(MaterialTheme.colorScheme.surfaceContainerHighest),
+                .background(trackColor),
         ) {
             androidx.compose.foundation.layout.Box(
                 modifier = Modifier
                     .fillMaxWidth(animated)
-                    .height(8.dp)
+                    .height(10.dp)
                     .clip(RoundedCornerShape(50))
                     .background(color),
             )

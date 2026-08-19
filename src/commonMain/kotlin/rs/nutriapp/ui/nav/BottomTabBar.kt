@@ -37,13 +37,15 @@ private data class TabSpec(
     val outlined: ImageVector,
 )
 
-private val tabs = listOf(
+// Dva taba levo, dva desno — prazan slot ostaje tacno u sredini, gde stoji FAB.
+// (Sa tri levo i jednim desno FAB bi se centrirao preko treceg taba i zaklonio ga.)
+private val leadingTabs = listOf(
     TabSpec(Route.Home, "Početna", Icons.Filled.Home, Icons.Outlined.Home),
     TabSpec(Route.Discovery, "Otkrij", Icons.Filled.Explore, Icons.Outlined.Explore),
-    TabSpec(Route.Plan, "Plan", Icons.Filled.CalendarMonth, Icons.Outlined.CalendarMonth),
 )
 
 private val trailingTabs = listOf(
+    TabSpec(Route.Plan, "Plan", Icons.Filled.CalendarMonth, Icons.Outlined.CalendarMonth),
     TabSpec(Route.Grocery, "Lista", Icons.Filled.ShoppingCart, Icons.Outlined.ShoppingCart),
 )
 
@@ -58,7 +60,7 @@ fun BottomTabBar(
         NavigationBar(
             containerColor = MaterialTheme.colorScheme.surfaceContainer,
         ) {
-            tabs.forEach { tab -> TabItem(tab, currentRoute, onNavigate) }
+            leadingTabs.forEach { tab -> TabItem(tab, currentRoute, onNavigate) }
             // Prazan slot za FAB u sredini
             NavigationBarItem(
                 selected = false,

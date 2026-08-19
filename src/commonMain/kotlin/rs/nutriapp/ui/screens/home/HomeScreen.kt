@@ -56,7 +56,7 @@ fun HomeScreen(
     ) { padding ->
         LazyColumn(
             state = listState,
-            contentPadding = PaddingValues(bottom = 96.dp, top = padding.calculateTopPadding()),
+            contentPadding = PaddingValues(bottom = 112.dp, top = padding.calculateTopPadding()),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             item {
@@ -103,35 +103,49 @@ private fun DailySummaryCard(state: HomeUiState, modifier: Modifier = Modifier) 
         shape = androidx.compose.foundation.shape.RoundedCornerShape(28.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
     ) {
+        // Sve boje unutar kartice izvedene su iz njene pozadine: podrazumevane
+        // `surface`/`onSurfaceVariant` boje bi se izgubile na obojenoj podlozi.
+        val onCard = MaterialTheme.colorScheme.onPrimaryContainer
+        val track = onCard.copy(alpha = 0.22f)
+
         Column(Modifier.padding(20.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(20.dp)) {
                 MacroRing(
                     progress = state.calorieFraction,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = onCard,
+                    trackColor = track,
                     centerLabel = "${state.intake.calories.rounded}",
                     centerSubLabel = "/ ${state.dailyGoals?.calories?.rounded ?: 0} kcal",
+                    centerLabelColor = onCard,
+                    centerSubLabelColor = onCard.copy(alpha = 0.75f),
                 )
-                Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
                     NutrientBar(
                         label = "Proteini",
                         valueLabel = "${state.intake.protein.rounded} / ${state.dailyGoals?.protein?.rounded ?: 0} g",
                         fraction = state.proteinFraction,
                         color = StatusColors.good,
+                        labelColor = onCard,
+                        valueColor = onCard.copy(alpha = 0.75f),
+                        trackColor = track,
                     )
                     NutrientBar(
                         label = "Ugljeni hidrati",
-                        valueLabel = "${state.intake.carbs.rounded} g",
-                        fraction = (state.intake.carbs.value / ((state.dailyGoals?.carbs?.value ?: 1.0).coerceAtLeast(1.0))).toFloat(),
+                        valueLabel = "${state.intake.carbs.rounded} / ${state.dailyGoals?.carbs?.rounded ?: 0} g",
+                        fraction = state.carbsFraction,
                         color = StatusColors.info,
+                        labelColor = onCard,
+                        valueColor = onCard.copy(alpha = 0.75f),
+                        trackColor = track,
                     )
                 }
             }
             if (state.streakDays > 0) {
-                androidx.compose.foundation.layout.Spacer(Modifier.padding(top = 12.dp))
+                androidx.compose.foundation.layout.Spacer(Modifier.padding(top = 14.dp))
                 Text(
                     "${state.streakDays} dana niz — nastavi tako",
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    color = onCard.copy(alpha = 0.85f),
                 )
             }
         }
@@ -167,14 +181,19 @@ private fun ActiveChallengeCard(title: String, progress: Int, target: Int, modif
         shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
     ) {
+        val onCard = MaterialTheme.colorScheme.onTertiaryContainer
+
         Column(Modifier.padding(16.dp)) {
-            Text(title, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onTertiaryContainer)
+            Text(title, style = MaterialTheme.typography.titleSmall, color = onCard)
             androidx.compose.foundation.layout.Spacer(Modifier.padding(top = 8.dp))
             NutrientBar(
                 label = "Napredak",
                 valueLabel = "$progress / $target",
                 fraction = if (target > 0) progress.toFloat() / target else 0f,
-                color = MaterialTheme.colorScheme.tertiary,
+                color = onCard,
+                labelColor = onCard,
+                valueColor = onCard.copy(alpha = 0.75f),
+                trackColor = onCard.copy(alpha = 0.22f),
             )
         }
     }

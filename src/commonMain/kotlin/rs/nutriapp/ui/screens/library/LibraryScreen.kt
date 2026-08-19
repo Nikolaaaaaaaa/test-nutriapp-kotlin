@@ -60,7 +60,7 @@ fun LibraryScreen(onOpenRecipe: (RecipeId) -> Unit, onOpenMore: () -> Unit) {
                         EmptyState(icon = Icons.Outlined.StarOutline, title = "Nema sačuvanih recepata")
                     } else {
                         LazyColumn(
-                            contentPadding = PaddingValues(16.dp),
+                            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 112.dp),
                             verticalArrangement = Arrangement.spacedBy(12.dp),
                         ) {
                             items(state.savedRecipes, key = { it.id.raw }) { recipe ->
@@ -78,7 +78,7 @@ fun LibraryScreen(onOpenRecipe: (RecipeId) -> Unit, onOpenMore: () -> Unit) {
                         EmptyState(icon = Icons.Outlined.ShoppingBag, title = "Nema sačuvanih proizvoda")
                     } else {
                         LazyColumn(
-                            contentPadding = PaddingValues(16.dp),
+                            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 112.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
                             items(state.savedProducts, key = { it.id.raw }) { product ->
@@ -100,7 +100,7 @@ fun LibraryScreen(onOpenRecipe: (RecipeId) -> Unit, onOpenMore: () -> Unit) {
                         EmptyState(icon = Icons.Outlined.SwapHoriz, title = "Nema omiljenih zamena")
                     } else {
                         LazyColumn(
-                            contentPadding = PaddingValues(16.dp),
+                            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 112.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
                             items(state.starredSubstitutions, key = { it.id.raw }) { sub ->

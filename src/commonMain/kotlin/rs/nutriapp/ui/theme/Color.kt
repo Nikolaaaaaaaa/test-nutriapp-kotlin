@@ -45,7 +45,9 @@ internal object KotlinColors {
 
     val tertiaryDark = Color(0xFFFFB68C)
     val onTertiaryDark = Color(0xFF5C1A00)
-    val tertiaryContainerDark = Color(0xFF7D2C00)
+    // Tamniji i manje zasicen od standardnog M3 tona: na tamnoj temi je jaka narandzasta
+    // podloga previse "vikala" pored ljubicaste hero kartice.
+    val tertiaryContainerDark = Color(0xFF55240B)
     val onTertiaryContainerDark = Color(0xFFFFDBC8)
 
     // ── Error (M3 standard) ──────────────────────────────────────────────────────────

@@ -40,6 +40,13 @@ data class HomeUiState(
             if (goal <= 0.0) return 0f
             return (intake.protein.value / goal).toFloat()
         }
+
+    val carbsFraction: Float
+        get() {
+            val goal = dailyGoals?.carbs?.value ?: return 0f
+            if (goal <= 0.0) return 0f
+            return (intake.carbs.value / goal).toFloat()
+        }
 }
 
 /**

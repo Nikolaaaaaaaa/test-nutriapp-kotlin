@@ -47,8 +47,9 @@ fun NewProductScreen(onSaved: (ProductId) -> Unit, onBack: () -> Unit) {
         Column(
             modifier = Modifier
                 .padding(padding)
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState())
+                // Donji prostor da tab bar i FAB ne prekriju dugme "Sačuvaj namirnicu".
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 112.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             OutlinedTextField(

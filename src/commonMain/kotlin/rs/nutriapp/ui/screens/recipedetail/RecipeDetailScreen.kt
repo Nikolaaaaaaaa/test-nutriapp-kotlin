@@ -66,7 +66,7 @@ fun RecipeDetailScreen(recipeId: RecipeId, onBack: () -> Unit) {
         }
 
         LazyColumn(
-            contentPadding = PaddingValues(top = padding.calculateTopPadding(), bottom = 32.dp),
+            contentPadding = PaddingValues(top = padding.calculateTopPadding(), bottom = 112.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             item {

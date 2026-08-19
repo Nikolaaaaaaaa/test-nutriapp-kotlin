@@ -50,7 +50,7 @@ fun LoggingScreen(onOpenNotifications: () -> Unit, onOpenMore: () -> Unit) {
                     start = 16.dp,
                     end = 16.dp,
                     top = padding.calculateTopPadding() + 8.dp,
-                    bottom = 8.dp,
+                    bottom = 112.dp,
                 ),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
