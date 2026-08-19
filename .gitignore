@@ -1,0 +1,28 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Kotlin / Kotlin-JS-Wasm
+.kotlin/
+kotlin-js-store/yarn.lock.bak
+
+# IDE
+.idea/
+*.iml
+.fleet/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Radni logovi ovog projekta (ne pripadaju repou)
+devserver-log.txt
+build-log.txt
+build-check.txt
+rebuild-debug*.txt
+clean-log.txt
+httpserver-log.txt
+
+# Backup fajlovi alata
+*.bak

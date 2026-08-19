@@ -1,0 +1,43 @@
+[versions]
+kotlin = "2.3.21"
+# Compose Multiplatform plugin
+compose = "1.11.1"
+# Jezgro Compose artefakata ide uz verziju plugina...
+composeCore = "1.11.1"
+# ...ali material3 i ikone imaju svoj ciklus izdavanja (ovo su verzije koje CMP 1.11.1 sam koristi).
+composeMaterial3 = "1.9.0"
+composeIcons = "1.7.3"
+
+coroutines = "1.11.0"
+serialization = "1.11.0"
+datetime = "0.8.0"
+browser = "0.5.0"
+# navigation-compose 2.9.2 i Compose UI 1.11.1 su oboje izgradjeni protiv lifecycle 2.9.6 —
+# ta verzija se ovde drzi namerno da Gradle ne "digne" graf na noviju liniju koja jos nema
+# kompletno objavljene wasmJs artefakte (2.10.x/2.11.0 lome rezoluciju u ovoj kombinaciji).
+navigation = "2.9.2"
+lifecycle = "2.9.6"
+
+[libraries]
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeCore" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "composeCore" }
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeCore" }
+compose-ui-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.ref = "composeCore" }
+compose-animation = { module = "org.jetbrains.compose.animation:animation", version.ref = "composeCore" }
+compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeCore" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "composeMaterial3" }
+compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "composeIcons" }
+
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
+kotlinx-browser = { module = "org.jetbrains.kotlinx:kotlinx-browser", version.ref = "browser" }
+navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation" }
+lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+
+[plugins]
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
